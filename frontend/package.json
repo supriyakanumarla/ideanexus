@@ -1,0 +1,56 @@
+{
+  "name": "ideanexus-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.27.2",
+    "bootstrap": "^5.3.0-alpha1",
+    "http-proxy-middleware": "^2.0.1",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.5.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.3.1",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.28.1",
+    "react-scripts": "^5.0.0",
+    "react-toastify": "^9.1.0",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.44.0",
+    "husky": "^8.0.3",
+    "jest": "^29.6.2",
+    "nodemon": "^3.0.1",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "scripts": {
+    "start": "PORT=3001 react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "kill-frontend-port": "lsof -t -i:3001 | xargs kill -9"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "homepage": "http://localhost:3001",
+  "proxy": "http://localhost:5002",
+  "description": "Frontend for IdeaNexus project, running on port 3001. API requests are forwarded to the backend running on port 5002."
+}

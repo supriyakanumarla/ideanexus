@@ -1,0 +1,100 @@
+/* Background and container */
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('/home/rguktongole/Desktop/ideanexus/frontend/src/assets/background.jpeg') no-repeat center center/cover;
+  background-size: cover;
+}
+
+/* Center the white box (login/signup) */
+.welcome-content {
+  background: rgba(255, 255, 255, 0.9); /* Slightly less transparent */
+  padding: 20px; /* Adjust padding for compactness */
+  text-align: center;
+  border-radius: 15px;
+  width: 320px; /* Reduced width by 20% */
+  max-width: 100%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column; /* Align items vertically */
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+}
+
+/* Input Field Styles */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 90%; /* Reduced width for uniform left and right spacing */
+  padding: 12px;
+  margin: 12px auto; /* Auto margins for uniform spacing */
+  display: block; /* Center-align inputs */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 5px; /* Rounded corners */
+  font-size: 16px;
+  box-sizing: border-box; /* Includes padding in the width */
+}
+
+/* Adjust placeholders */
+input[type="text"]::placeholder,
+input[type="password"]::placeholder,
+input[type="email"]::placeholder {
+  color: #aaa; /* Light grey placeholder text */
+  font-size: 14px; /* Uniform placeholder size */
+  text-align: left; /* Keep text alignment to the left */
+}
+
+/* Buttons in Login and Signup Boxes */
+.action-button {
+  width: 90%; /* Adjust button size to match input fields */
+  padding: 12px; /* Reduce button padding slightly */
+  font-size: 16px; /* Maintain clear, readable font */
+  margin: 10px auto; /* Uniform spacing */
+  text-align: center;
+  background-color: #007BFF; /* Button background */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight zoom-in effect */
+}
+
+/* Animation for fade-in effect */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Styles for smaller screens (responsive design) */
+@media (max-width: 768px) {
+  .welcome-content {
+    padding: 20px;
+    width: 95%; /* Expand width for smaller screens */
+  }
+
+  .action-button {
+    width: 100%; /* Full-width buttons on small screens */
+    font-size: 14px;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    width: 100%; /* Full-width inputs on small screens */
+  }
+}

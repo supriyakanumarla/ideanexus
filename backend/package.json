@@ -1,0 +1,48 @@
+{
+    "name": "ideanexus",
+    "version": "1.0.0",
+    "description": "IdeaNexus is a platform for collaboration, networking, and project sharing among students, graduates, and professionals.",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js",
+        "test": "jest",
+        "build": "webpack --mode production",
+        "lint": "eslint .",
+        "prepare": "husky install"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/supriyakanumarla/ideanexus.git"
+    },
+    "keywords": [
+        "collaboration",
+        "networking",
+        "projects",
+        "students",
+        "professionals",
+        "IdeaNexus"
+    ],
+    "author": "Supriya",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/supriyakanumarla/ideanexus/issues"
+    },
+    "homepage": "https://github.com/supriyakanumarla/ideanexus#readme",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "jsonwebtoken": "^9.0.2",
+        "mongoose": "^7.8.3"
+    },
+    "devDependencies": {
+        "eslint": "^8.44.0",
+        "husky": "^8.0.3",
+        "jest": "^29.6.2",
+        "nodemon": "^3.0.1",
+        "webpack": "^5.88.2",
+        "webpack-cli": "^5.1.4"
+    }
+}
