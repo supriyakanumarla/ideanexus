@@ -3,34 +3,43 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('/home/rguktongole/Desktop/ideanexus/backend/routes/auth.js'); // Adjust path if necessary
+const postRoutes = require('/home/rguktongole/Desktop/ideanexus/backend/routes/posts.js'); // Posts route for dashboard
 
-// Load environment variables
 dotenv.config();
 
-// Log the JWT_SECRET to confirm it's loaded correctly
-console.log('JWT_SECRET:', process.env.JWT_SECRET);
+// Log the JWT_SECRET for debugging
+if (!process.env.JWT_SECRET) {
+  console.error('Error: JWT_SECRET is not defined in the .env file.');
+  process.exit(1);
+}
 
 const app = express();
 
 // Middleware
 app.use(cors());
-app.use(express.json()); // To parse incoming JSON requests
+app.use(express.json());
 
-// Use the auth routes
+// Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/posts', postRoutes);
 
-// Connect to MongoDB
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/yourdbname'; // Fallback URI for development
+// MongoDB Connection
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/ideanexus';
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
+  .then(() => console.log('MongoDB connected successfully.'))
   .catch((err) => {
-    console.error('MongoDB connection error:', err);
-    process.exit(1); // Exit the app if MongoDB connection fails
+    console.error('Error connecting to MongoDB:', err.message);
+    process.exit(1);
   });
+
+// Health Check Route
+app.get('/', (req, res) => {
+  res.send('Welcome to the IdeaNexus Backend API!');
+});
 
 // Start the server
 const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

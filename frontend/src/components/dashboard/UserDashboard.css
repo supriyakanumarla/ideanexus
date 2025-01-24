@@ -1,0 +1,106 @@
+/* General styles for the page */
+.user-dashboard-page {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    height: 100%; /* Full height of the viewport */
+  }
+  
+  /* Header Layout */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    position: fixed; /* Keep header fixed */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+  }
+  
+  /* Profile Icon */
+  .profile-icon .icon {
+    font-size: 3vw; /* 3% of the viewport width */
+    color: #007BFF; /* Blue color */
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #fff;
+    min-width: 40px; /* Ensures the icon has a minimum size */
+    min-height: 40px; /* Ensures the icon has a minimum size */
+    text-align: center;
+  }
+  
+  /* Search Bar */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #ccc; /* Only one border around the search bar */
+    border-radius: 20px;
+    padding: 5px 15px;
+    width: 65%; /* 65% width for the search bar */
+    background-color: #fff; /* Ensure background is white */
+  }
+  
+  .search-bar input {
+    border: none; /* Remove input border */
+    outline: none; /* Remove focus outline */
+    padding: 5px;
+    font-size: 14px;
+    width: 100%;
+    background-color: transparent; /* Make sure input background is transparent */
+  }
+  
+  .search-icon {
+    font-size: 16px; /* Size of the search icon */
+    color: #007BFF; /* Blue color */
+  }
+  
+  /* Message Icon (Updated) */
+  .message-icon {
+    font-size: 3vw; /* Same size ratio as profile icon (3% of the viewport width) */
+    color: #007BFF; /* Blue color */
+    padding: 0; /* Remove padding to make it fit tightly */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 4vw; /* Distance of 4% of the viewport width to the right edge of the page */
+    min-width: 40px; /* Ensures the icon has a minimum size */
+    min-height: 40px; /* Ensures the icon has a minimum size */
+    text-align: center;
+    background-color: transparent; /* Remove white background */
+    border-radius: 0; /* Remove circular background */
+  }
+  
+  /* Message Badge (if any new messages) */
+  .message-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    padding: 3px 6px;
+    border-radius: 50%;
+  }
+  
+  /* Remove double borders from search bar */
+  .search-bar {
+    border: 1px solid #ccc; /* Only one border around the search bar */
+    box-shadow: none; /* Remove any shadow that might create an extra border effect */
+  }
+  
+  /* Ensure body content doesn't overlap the fixed header */
+  body {
+    margin-top: 70px; /* Space for the fixed header */
+    overflow-y: auto; /* Allow vertical scrolling */
+  }
+  

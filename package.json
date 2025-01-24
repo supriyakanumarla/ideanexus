@@ -10,6 +10,7 @@
     "concurrently": "^9.1.2"
   },
   "dependencies": {
-    "axios": "^1.7.9"
+    "axios": "^1.7.9",
+    "react-fontawesome": "^1.7.1"
   }
 }

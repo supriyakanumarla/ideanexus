@@ -5,17 +5,20 @@ import backgroundImage from '/home/rguktongole/Desktop/ideanexus/frontend/src/as
 
 function WelcomePage() {
   return (
-    <div className="welcome-container" style={{ backgroundImage: `url(${backgroundImage})` }}>
+    <div
+      className="welcome-container"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
       <div className="overlay">
         <div className="welcome-content">
           <h1 className="welcome-message">Welcome to IdeaNexus!</h1>
           <p className="tagline">Connect. Create. Collaborate.</p>
           <div className="buttons-container">
             <Link to="/login">
-              <button className="action-button large-button">Login</button>
+              <button className="action-button">Login</button>
             </Link>
             <Link to="/signup">
-              <button className="action-button large-button">Signup</button>
+              <button className="action-button">Signup</button>
             </Link>
           </div>
         </div>

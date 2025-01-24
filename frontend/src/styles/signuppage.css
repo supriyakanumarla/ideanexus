@@ -1,102 +1,101 @@
-/* Background and container */
+/* Container for the entire Sign Up Page */
 .signin-container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
-    background-image: url('/home/rguktongole/Desktop/ideanexus/frontend/src/assets/background.jpeg');
-    background-size: cover;
-    background-position: center;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6) url('/home/rguktongole/Desktop/ideanexus/frontend/src/assets/background.jpeg') no-repeat center center/cover;
+}
+
+/* Sign Up Box Styling */
+.signin-box {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px 30px;
+  text-align: center;
+  border-radius: 15px;
+  width: 320px; /* Reduced size by 20% */
+  max-width: 90%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Heading */
+.signin-box h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Form Group for consistent spacing */
+.form-group {
+  margin: 15px 0;
+}
+
+/* Input Fields and Dropdown */
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+  background-color: #f9f9f9;
+}
+
+/* Submit Button */
+.btn-signin {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  font-size: 16px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-signin:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Error and Success Messages */
+.error-message {
+  color: #FF0000;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+.success-message {
+  color: #008000;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+/* Animation for Fade-In */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  /* Sign Up Box */
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
   .signin-box {
-    background: rgba(255, 255, 255, 0.8);
-    padding: 30px;
-    text-align: center;
-    border-radius: 15px;
-    width: 400px;
-    max-width: 100%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    animation: fadeIn 1s ease-out;
-    transform: scale(0.98);
+    width: 85%; /* Further adjust for smaller screens */
+    padding: 15px 20px;
   }
-  
-  /* Heading */
-  .signin-box h2 {
-    font-size: 32px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  /* Input fields */
-  input,
-  select {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #f9f9f9;
-  }
-  
-  /* Button */
+
   .btn-signin {
-    width: 100%; /* Button covers the whole text width */
-    padding: 15px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    margin-top: 20px;
-    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    font-size: 14px;
   }
-  
-  .btn-signin:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-  }
-  
-  /* Success/Error Messages */
-  .error-message {
-    color: red;
-    margin-top: 10px;
-    font-size: 16px;
-    opacity: 0;
-    animation: fadeIn 1s forwards;
-  }
-  
-  .success-message {
-    color: green;
-    margin-top: 10px;
-    font-size: 16px;
-    opacity: 0;
-    animation: fadeIn 1s forwards;
-  }
-  
-  /* Animation for messages */
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .signin-box {
-      width: 90%;
-      padding: 20px;
-    }
-  }
-  
+}

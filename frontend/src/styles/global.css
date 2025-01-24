@@ -1,0 +1,36 @@
+/* Root Elements */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: 'Arial', sans-serif; /* Add a default font family */
+    color: #333; /* Default text color */
+}
+
+/* Universal Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Default Body Background */
+body {
+    background: none;
+    background-color: #f4f4f4; /* Light gray for consistent app feel */
+}
+
+/* Scrollbar Styling */
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #007BFF; /* Blue scrollbar */
+    border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background-color: #0056b3;
+}
