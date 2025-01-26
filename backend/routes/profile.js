@@ -1,34 +1,33 @@
 const express = require('express');
-const User = require('/home/rguktongole/Desktop/ideanexus/backend/models/user.js'); // Correct relative path to the User model
 const router = express.Router();
+const User = require('/home/rguktongole/Desktop/ideanexus/backend/app/models/user.js'); // Adjust path if necessary
 
-// Update Profile Route
-router.put('/update', async (req, res) => {
-  const { userId, name, email, profilePicture, bio } = req.body;
-
-  if (!userId) {
-    return res.status(400).json({ message: 'User ID is required.' });
-  }
-
+// Fetch user profile
+router.get('/profile', async (req, res) => {
   try {
-    const user = await User.findById(userId);
-
+    let user = await User.findOne();
     if (!user) {
-      return res.status(404).json({ message: 'User not found.' });
+      user = new User(); // Create a default user if not found
+      await user.save();
     }
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Error fetching user profile.' });
+  }
+});
 
-    // Update user fields
-    if (name) user.name = name;
-    if (email) user.email = email;
-    if (profilePicture) user.profilePicture = profilePicture;
-    if (bio) user.bio = bio;
-
-    await user.save();
-
-    res.status(200).json({ message: 'Profile updated successfully.', user });
-  } catch (error) {
-    console.error('Error updating profile:', error);
-    res.status(500).json({ message: 'Failed to update profile.', error });
+// Update user profile
+router.put('/profile', async (req, res) => {
+  const { username, email, bio, profilePicture } = req.body;
+  try {
+    const user = await User.findOneAndUpdate(
+      {}, // Update the first user (default behavior)
+      { username, email, bio, profilePicture },
+      { new: true, upsert: true } // Create if not exists
+    );
+    res.json({ message: 'Profile updated successfully!', user });
+  } catch (err) {
+    res.status(500).json({ error: 'Error updating user profile.' });
   }
 });
 

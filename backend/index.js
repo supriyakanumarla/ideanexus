@@ -2,12 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const authRoutes = require('/home/rguktongole/Desktop/ideanexus/backend/routes/auth.js'); // Adjust path if necessary
-const postRoutes = require('/home/rguktongole/Desktop/ideanexus/backend/routes/posts.js'); // Posts route for dashboard
+const authRoutes = require('/home/rguktongole/Desktop/ideanexus/backend/routes/auth.js');
+const postRoutes = require('/home/rguktongole/Desktop/ideanexus/backend/routes/posts.js');
+const profileRoutes = require('/home/rguktongole/Desktop/ideanexus/backend/routes/profile.js');
 
 dotenv.config();
 
-// Log the JWT_SECRET for debugging
+// Ensure JWT_SECRET is defined
 if (!process.env.JWT_SECRET) {
   console.error('Error: JWT_SECRET is not defined in the .env file.');
   process.exit(1);
@@ -15,15 +16,17 @@ if (!process.env.JWT_SECRET) {
 
 const app = express();
 
-// Middleware
+// Middleware to handle large payloads
+app.use(express.json({ limit: '10mb' })); // Adjust size if needed
+app.use(express.urlencoded({ extended: true, limit: '10mb' })); // For form data
 app.use(cors());
-app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
+app.use('/api/user', profileRoutes);
 
-// MongoDB Connection
+// MongoDB connection
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/ideanexus';
 mongoose
   .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -33,12 +36,20 @@ mongoose
     process.exit(1);
   });
 
-// Health Check Route
+// Default route
 app.get('/', (req, res) => {
   res.send('Welcome to the IdeaNexus Backend API!');
 });
 
-// Start the server
+// Error handling middleware for payload issues
+app.use((err, req, res, next) => {
+  if (err.type === 'entity.too.large') {
+    return res.status(413).send({ message: 'Payload too large. Please reduce the size of your request.' });
+  }
+  next(err);
+});
+
+// Start server
 const PORT = process.env.PORT || 5002;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

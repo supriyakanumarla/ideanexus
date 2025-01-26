@@ -1,50 +1,54 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  name: { 
-    type: String, 
-    required: true 
+  name: {
+    type: String,
+    required: true,
   },
-  username: { 
-    type: String, 
-    required: true, 
-    unique: true 
-  }, // Username field
-  email: { 
-    type: String, 
-    required: true, 
-    unique: true 
+  username: {
+    type: String,
+    required: true,
+    unique: true,
   },
-  password: { 
-    type: String, 
-    required: true 
+  email: {
+    type: String,
+    required: true,
+    unique: true,
   },
-  userType: { 
-    type: String, 
-    required: true, 
-    enum: ['student', 'professional'] 
-  }, // User type
-  bio: { 
-    type: String, 
-    default: '' 
-  }, // Bio field for user description
-  createdAt: { 
-    type: Date, 
-    default: Date.now 
-  }, // Account creation date
-  updatedAt: { 
-    type: Date, 
-    default: Date.now 
-  } // Profile update date
+  password: {
+    type: String,
+    required: true,
+  },
+  userType: {
+    type: String,
+    required: true,
+    enum: ['student', 'professional'],
+  },
+  bio: {
+    type: String,
+    default: '',
+  },
+  profilePicture: {
+    type: String, // Store the file path or URL
+    default: '', // Default will be handled in the frontend
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-// Pre-save middleware to update the `updatedAt` field on save
+// Update `updatedAt` automatically on save
 userSchema.pre('save', function (next) {
   this.updatedAt = Date.now();
   next();
 });
 
-// Pre-update middleware to update the `updatedAt` field on update
+// Update `updatedAt` automatically on update
 userSchema.pre('findOneAndUpdate', function (next) {
   this._update.updatedAt = Date.now();
   next();

@@ -1,3 +1,4 @@
+/* Container for the entire profile page */
 .profile-container {
   max-width: 600px;
   margin: 20px auto;
@@ -7,6 +8,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Header section with profile picture and username */
 .profile-header {
   text-align: center;
   margin-bottom: 20px;
@@ -17,6 +19,7 @@
   margin-bottom: 15px;
 }
 
+/* Profile picture styling */
 .profile-pic {
   width: 120px;
   height: 120px;
@@ -25,6 +28,7 @@
   object-fit: cover;
 }
 
+/* Section to upload a new profile picture */
 .change-photo-section {
   margin-top: 10px;
 }
@@ -37,12 +41,14 @@
   border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .custom-file-upload:hover {
   background: #0056b3;
 }
 
+/* Edit profile button */
 .edit-btn {
   background: #007bff;
   color: #fff;
@@ -52,12 +58,14 @@
   font-size: 14px;
   cursor: pointer;
   margin-top: 10px;
+  transition: background 0.3s ease;
 }
 
 .edit-btn:hover {
   background: #0056b3;
 }
 
+/* Profile details section (view-only) */
 .profile-details {
   font-size: 16px;
   color: #555;
@@ -68,6 +76,7 @@
   margin: 10px 0;
 }
 
+/* Form for editing profile details */
 .profile-form {
   display: flex;
   flex-direction: column;
@@ -80,6 +89,7 @@ label {
   font-weight: bold;
 }
 
+/* Input and textarea fields for editing */
 input,
 textarea {
   width: 100%;
@@ -95,6 +105,7 @@ textarea {
   height: 70px;
 }
 
+/* Save changes button */
 .save-btn {
   background: #28a745;
   color: #fff;
@@ -103,8 +114,28 @@ textarea {
   border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .save-btn:hover {
-  background: #0056b3;
+  background: #218838;
+}
+
+/* Success and error messages */
+.message {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: bold;
+  color: #fff;
+}
+
+.message.success {
+  background-color: #28a745; /* Green for success */
+}
+
+.message.error {
+  background-color: #dc3545; /* Red for errors */
 }
