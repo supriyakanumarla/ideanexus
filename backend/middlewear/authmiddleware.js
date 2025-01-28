@@ -1,19 +1,43 @@
 const jwt = require('jsonwebtoken');
 
-const authenticateUser = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1]; // Extract token from `Authorization` header
-
-  if (!token) {
-    return res.status(401).json({ message: 'Authentication token is missing. Please log in again.' });
-  }
-
+const authenticateUser = async (req, res, next) => {
   try {
+    // Get token from header
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({
+        success: false,
+        message: 'No token, authorization denied'
+      });
+    }
+
+    // Verify token
+    const token = authHeader.split(' ')[1];
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is not defined');
+      return res.status(500).json({
+        success: false,
+        message: 'Server configuration error'
+      });
+    }
+
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = decoded.id; // Attach userId to the request object
+
+    // Add user from payload
+    req.user = decoded;
     next();
   } catch (error) {
-    console.error('JWT verification failed:', error);
-    return res.status(401).json({ message: 'Invalid or expired token. Please log in again.' });
+    console.error('Auth middleware error:', error);
+    if (error.name === 'JsonWebTokenError') {
+      return res.status(401).json({
+        success: false,
+        message: 'Invalid token'
+      });
+    }
+    res.status(401).json({
+      success: false,
+      message: 'Token is not valid'
+    });
   }
 };
 

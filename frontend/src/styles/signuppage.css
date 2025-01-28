@@ -1,66 +1,125 @@
-/* Container for the entire Sign Up Page */
-.signin-container {
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
   width: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Container for the entire Sign Up Page */
+.signup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.6) url('/home/rguktongole/Desktop/ideanexus/frontend/src/assets/background.jpeg') no-repeat center center/cover;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+  z-index: 9999;
+  overflow-y: auto !important; /* Enable vertical scrolling */
+  min-height: 100vh;
+  padding: 20px 0;
 }
 
 /* Sign Up Box Styling */
-.signin-box {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 20px 30px;
+.signup-box {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
   text-align: center;
   border-radius: 15px;
-  width: 320px; /* Reduced size by 20% */
+  width: 360px;
   max-width: 90%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
   animation: fadeIn 0.8s ease-out;
+  margin: 20px auto;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 /* Heading */
-.signin-box h2 {
-  font-size: 1.8rem;
-  margin-bottom: 15px;
+.signup-box h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
   color: #333;
   font-weight: bold;
 }
 
-/* Form Group for consistent spacing */
-.form-group {
-  margin: 15px 0;
+/* Input Fields and Select */
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Input Fields and Dropdown */
-input,
-select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 15px;
-  background-color: #f9f9f9;
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
 }
 
 /* Submit Button */
-.btn-signin {
+.signup-button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-top: 20px;
-  font-size: 16px;
+  font-size: 18px;
   background-color: #007BFF;
-  color: #fff;
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.btn-signin:hover {
+.signup-button:hover:not(:disabled) {
   background-color: #0056b3;
   transform: scale(1.05);
+}
+
+.signup-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Login Link */
+.login-link {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.login-link a {
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
 }
 
 /* Error and Success Messages */
@@ -90,12 +149,67 @@ select {
 
 /* Responsive Design for Smaller Screens */
 @media (max-width: 768px) {
-  .signin-box {
+  .signup-box {
     width: 85%; /* Further adjust for smaller screens */
     padding: 15px 20px;
   }
 
-  .btn-signin {
+  .signup-button {
     font-size: 14px;
   }
+}
+
+/* Scrolling enhancements */
+.signup-container {
+    overflow-y: auto !important; /* Enable vertical scrolling */
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+.signup-box {
+    margin: 20px auto;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Custom scrollbar styling */
+.signup-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.signup-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.signup-box::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.signup-box::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Additional responsive adjustments */
+@media (max-height: 800px) {
+    .signup-container {
+        align-items: flex-start;
+    }
+    
+    .signup-box {
+        margin: 20px auto;
+        max-height: calc(100vh - 40px);
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-container {
+        padding: 10px;
+    }
+    
+    .signup-box {
+        margin: 10px auto;
+        max-height: calc(100vh - 20px);
+    }
 }

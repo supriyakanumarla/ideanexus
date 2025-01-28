@@ -5,10 +5,7 @@ import backgroundImage from '/home/rguktongole/Desktop/ideanexus/frontend/src/as
 
 function WelcomePage() {
   return (
-    <div
-      className="welcome-container"
-      style={{ backgroundImage: `url(${backgroundImage})` }}
-    >
+    <div className="welcome-container" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <div className="overlay">
         <div className="welcome-content">
           <h1 className="welcome-message">Welcome to IdeaNexus!</h1>

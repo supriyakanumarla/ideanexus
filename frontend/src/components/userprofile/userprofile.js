@@ -1,88 +1,183 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { compressImage } from '/home/rguktongole/Desktop/ideanexus/frontend/src/utils/imageCompression';
+import { compressImage } from '../../utils/imageCompression';
 import '/home/rguktongole/Desktop/ideanexus/frontend/src/components/userprofile/userprofile.css';
 import DefaultProfilePicture from '/home/rguktongole/Desktop/ideanexus/frontend/src/assets/profile-placeholder.jpg';
 
-// Base API URL from .env file
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
 const UserProfilePage = () => {
-  const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
     username: '',
     email: '',
     bio: '',
     profilePicture: DefaultProfilePicture,
   });
+  const [isEditing, setIsEditing] = useState(false);
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [imageKey, setImageKey] = useState(Date.now());
 
-  // Fetch profile data on component load
   useEffect(() => {
-    axios
-      .get(`${API_BASE_URL}/user/profile`)
-      .then((response) => {
-        const { username, email, bio, profilePicture } = response.data;
-        setProfileData({
-          username,
-          email,
-          bio,
-          profilePicture: profilePicture || DefaultProfilePicture,
-        });
-      })
-      .catch((error) => {
-        console.error('Error fetching profile:', error);
-        setMessage('Error fetching profile data.');
-      });
+    fetchProfileData();
   }, []);
 
-  const handleEditToggle = () => setIsEditing(!isEditing);
+  const fetchProfileData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = '/login';
+        return;
+      }
 
-  const handleSave = () => {
-    axios
-      .put(`${API_BASE_URL}/user/profile`, profileData)
-      .then((response) => {
-        setProfileData({
-          ...response.data.user,
-          profilePicture: response.data.user.profilePicture || DefaultProfilePicture,
-        });
-        setMessage('Profile updated successfully!');
-        setIsEditing(false);
-      })
-      .catch((error) => {
-        console.error('Error updating profile:', error.response || error);
-        setMessage('Error updating profile. Please try again.');
+      const response = await axios.get('http://localhost:5002/api/auth/profile', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
+      
+      if (response.data && response.data.success) {
+        const userData = response.data.user;
+        console.log('Fetched profile data:', userData);
+        
+        setProfileData({
+          username: userData.username || '',
+          email: userData.email || '',
+          bio: userData.bio || '',
+          profilePicture: userData.profilePicture || DefaultProfilePicture,
+        });
+        setImageKey(Date.now());
+      }
+    } catch (error) {
+      console.error('Profile fetch error:', error);
+      if (error.response?.status === 401) {
+        window.location.href = '/login';
+      } else {
+        setMessage('Error loading profile data');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleProfilePictureChange = async (e) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-
+      console.log('Selected file:', file);
+      
       try {
-        const compressedFile = await compressImage(file);
+        const compressedImage = await compressImage(file);
+        console.log('Compressed image:', compressedImage);
+        
+        setProfileData(prev => ({
+          ...prev,
+          profilePicture: compressedImage
+        }));
+        
+        // Trigger update immediately when file is selected
+        const formData = new FormData();
+        formData.append('profilePicture', compressedImage);
+        formData.append('username', profileData.username);
+        formData.append('email', profileData.email);
+        formData.append('bio', profileData.bio);
 
-        // Convert compressed file to Base64
-        const reader = new FileReader();
-        reader.onload = () => {
-          setProfileData((prev) => ({
-            ...prev,
-            profilePicture: reader.result, // Base64 encoded string
-          }));
-        };
-        reader.readAsDataURL(compressedFile);
+        const token = localStorage.getItem('token');
+        const response = await axios.put(
+          'http://localhost:5002/api/auth/profile',
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        );
+
+        if (response.data && response.data.success) {
+          console.log('Profile picture updated:', response.data);
+          setMessage('Profile picture updated successfully!');
+          // Force reload the image
+          setImageKey(Date.now());
+          // Fetch updated profile data
+          await fetchProfileData();
+        }
       } catch (error) {
-        console.error('Error handling profile picture:', error);
-        setMessage('Error uploading profile picture. Please try again.');
+        console.error('Error updating profile picture:', error);
+        setMessage('Error updating profile picture. Please try again.');
       }
     }
   };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    setMessage('');
+    
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login';
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('username', profileData.username);
+        formData.append('email', profileData.email);
+        formData.append('bio', profileData.bio);
+
+        // Only append profile picture if it's a new file
+        if (profileData.profilePicture instanceof File) {
+            formData.append('profilePicture', profileData.profilePicture);
+        }
+
+        const response = await axios.put(
+            'http://localhost:5002/api/auth/profile',
+            formData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+        );
+
+        if (response.data && response.data.success) {
+            setMessage('Profile updated successfully!');
+            setIsEditing(false);
+            fetchProfileData(); // Refresh the profile data
+        }
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        setMessage(
+            error.response?.data?.message || 
+            'Error updating profile. Please try again.'
+        );
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProfileData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  if (loading) {
+    return <div className="loading">Loading profile...</div>;
+  }
 
   return (
     <div className="profile-container">
       <div className="profile-header">
         <div className="profile-pic-container">
-          <img src={profileData.profilePicture} alt="Profile" className="profile-pic" />
+          <img 
+            key={imageKey}
+            src={`${profileData.profilePicture}?${imageKey}`}
+            alt="Profile" 
+            className="profile-pic"
+            onError={(e) => {
+              console.log('Image load error, using default');
+              e.target.src = DefaultProfilePicture;
+            }}
+          />
           {isEditing && (
             <div className="change-photo-section">
               <label className="custom-file-upload">
@@ -98,66 +193,91 @@ const UserProfilePage = () => {
           )}
         </div>
 
-        {!isEditing ? (
-          <>
-            <h2>{profileData.username}</h2>
-            <button className="edit-btn" onClick={handleEditToggle}>
-              Edit Profile
-            </button>
-          </>
-        ) : null}
+        <h2 className="profile-name">{profileData.username}</h2>
       </div>
 
-      <div className="profile-details">
+      <div className="profile-content">
         {isEditing ? (
-          <form className="profile-form">
-            <label>Username:</label>
-            <input
-              type="text"
-              value={profileData.username}
-              onChange={(e) =>
-                setProfileData((prev) => ({ ...prev, username: e.target.value }))
-              }
-            />
+          <form onSubmit={handleUpdate} className="profile-form">
+            <div className="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                name="username"
+                value={profileData.username}
+                onChange={handleInputChange}
+                required
+                minLength={3}
+              />
+            </div>
 
-            <label>Email:</label>
-            <input
-              type="email"
-              value={profileData.email}
-              onChange={(e) =>
-                setProfileData((prev) => ({ ...prev, email: e.target.value }))
-              }
-            />
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                value={profileData.email}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
 
-            <label>Bio:</label>
-            <textarea
-              value={profileData.bio}
-              onChange={(e) =>
-                setProfileData((prev) => ({ ...prev, bio: e.target.value }))
-              }
-            ></textarea>
+            <div className="form-group">
+              <label>Bio</label>
+              <textarea
+                name="bio"
+                value={profileData.bio}
+                onChange={handleInputChange}
+                maxLength={500}
+                rows="3"
+                placeholder="Tell us about yourself..."
+              />
+              <small className="char-count">{profileData.bio.length}/500</small>
+            </div>
 
-            <button type="button" onClick={handleSave} className="save-btn">
-              Save Changes
-            </button>
+            <div className="button-group">
+              <button type="submit" className="save-btn">
+                Save Changes
+              </button>
+              <button 
+                type="button" 
+                className="cancel-btn"
+                onClick={() => setIsEditing(false)}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         ) : (
-          <div className="details-view">
-            <p>
-              <strong>Email:</strong> {profileData.email}
-            </p>
-            <p>
-              <strong>Bio:</strong> {profileData.bio}
-            </p>
+          <div className="profile-info">
+            <div className="info-group">
+              <label>Email</label>
+              <p>{profileData.email}</p>
+            </div>
+            
+            <div className="info-group">
+              <label>Bio</label>
+              <p>{profileData.bio || 'No bio added yet.'}</p>
+            </div>
+
+            <button 
+              onClick={() => setIsEditing(true)}
+              className="edit-btn"
+            >
+              Edit Profile
+            </button>
+          </div>
+        )}
+
+        {message && (
+          <div 
+            className={`message ${message.includes('Error') ? 'error' : 'success'}`}
+            onClick={() => setMessage('')}
+          >
+            {message}
           </div>
         )}
       </div>
-
-      {message && (
-        <p className={`message ${message.includes('Error') ? 'error' : 'success'}`}>
-          {message}
-        </p>
-      )}
     </div>
   );
 };

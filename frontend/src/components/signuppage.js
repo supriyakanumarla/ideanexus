@@ -1,68 +1,172 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
+import axiosInstance from '../utils/axios';
 import '/home/rguktongole/Desktop/ideanexus/frontend/src/styles/signuppage.css';
+import backgroundImage from '/home/rguktongole/Desktop/ideanexus/frontend/src/assets/background.jpeg';
 
-const SignUpPage = () => {
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('');
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-  const navigate = useNavigate();
+const SignupPage = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        username: '',
+        email: '',
+        password: '',
+        userType: ''
+    });
+    const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:5002/api/auth/signup', { name, username, email, password, userType });
-      console.log('Sign Up successful:', response.data);
-      setSuccessMessage('User registered successfully!');
-      setName('');
-      setUsername('');
-      setEmail('');
-      setPassword('');
-      setUserType('');
-      navigate('/dashboard');  // Redirect to dashboard after signup
-    } catch (err) {
-      console.error('Sign Up error:', err);
-      setError('Error registering user. Please try again.');
-      setSuccessMessage('');
-    }
-  };
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+        setError('');
+    };
 
-  return (
-    <div className="signin-container">
-      <div className="signin-box">
-        <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
-          </div>
-          <div className="form-group">
-            <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
-          </div>
-          <div className="form-group">
-            <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          </div>
-          <div className="form-group">
-            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          </div>
-          <div className="form-group">
-            <select value={userType} onChange={(e) => setUserType(e.target.value)} required>
-              <option value="">Select User Type</option>
-              <option value="student">Student</option>
-              <option value="professional">Professional</option>
-            </select>
-          </div>
-          <button type="submit" className="btn-signin">Sign Up</button>
-          {error && <p className="error-message">{error}</p>}
-          {successMessage && <p className="success-message">{successMessage}</p>}
-        </form>
-      </div>
-    </div>
-  );
+    const validateForm = () => {
+        if (!formData.name.trim()) {
+            setError('Name is required');
+            return false;
+        }
+        if (!formData.username.trim()) {
+            setError('Username is required');
+            return false;
+        }
+        if (!formData.email.trim()) {
+            setError('Email is required');
+            return false;
+        }
+        if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+            setError('Please enter a valid email address');
+            return false;
+        }
+        if (!formData.password) {
+            setError('Password is required');
+            return false;
+        }
+        if (formData.password.length < 6) {
+            setError('Password must be at least 6 characters long');
+            return false;
+        }
+        if (!formData.userType) {
+            setError('Please select a user type');
+            return false;
+        }
+        return true;
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        setSuccessMessage('');
+
+        if (!validateForm()) {
+            return;
+        }
+
+        try {
+            setSuccessMessage('Processing...');
+
+            const response = await axiosInstance.post('/auth/signup', formData);
+
+            if (response.data.success) {
+                setSuccessMessage('Registration successful! Redirecting to dashboard...');
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+                
+                setTimeout(() => {
+                    navigate('/dashboard');
+                }, 1500);
+            }
+        } catch (error) {
+            console.error('Signup error:', error);
+            setSuccessMessage('');
+            
+            if (error.response?.data?.message) {
+                setError(error.response.data.message);
+            } else if (error.message === 'Network Error') {
+                setError('Server connection failed. Please check if the server is running.');
+            } else {
+                setError('Registration failed. Please try again.');
+            }
+        }
+    };
+
+    return (
+        <div className="signup-container" style={{ backgroundImage: `url(${backgroundImage})` }}>
+            <div className="signup-box">
+                <h2>Create Account</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Full Name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <select
+                            name="userType"
+                            value={formData.userType}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="">Select User Type</option>
+                            <option value="student">Student</option>
+                            <option value="professional">Professional</option>
+                        </select>
+                    </div>
+                    <button 
+                        type="submit" 
+                        className="signup-button"
+                        disabled={!formData.name || !formData.username || !formData.email || !formData.password || !formData.userType}
+                    >
+                        Sign Up
+                    </button>
+                </form>
+                {error && <p className="error-message">{error}</p>}
+                {successMessage && <p className="success-message">{successMessage}</p>}
+                <p className="login-link">
+                    Already have an account? <Link to="/login">Login here</Link>
+                </p>
+            </div>
+        </div>
+    );
 };
 
-export default SignUpPage;
+export default SignupPage;
