@@ -1,10 +1,12 @@
 /* General styles for the page */
 .user-dashboard-page {
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
     overflow-x: hidden; /* Prevent horizontal scrolling */
     height: 100%; /* Full height of the viewport */
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
   }
   
   /* Header Layout */
@@ -12,95 +14,257 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #fff;
-    border-bottom: 1px solid #ccc;
+    padding: 12px 24px; /* Increased padding */
+    background-color: #ffffff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     width: 100%;
-    position: fixed; /* Keep header fixed */
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 10;
+    height: 65px; /* Increased height */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   }
   
-  /* Profile Icon */
-  .profile-icon .icon {
-    font-size: 3vw; /* 3% of the viewport width */
-    color: #007BFF; /* Blue color */
-    padding: 10px;
+  /* Larger Profile Icon */
+  .profile-icon {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    width: 48px; /* Increased size */
+    height: 48px; /* Increased size */
     border-radius: 50%;
-    background-color: #fff;
-    min-width: 40px; /* Ensures the icon has a minimum size */
-    min-height: 40px; /* Ensures the icon has a minimum size */
-    text-align: center;
+    transition: all 0.2s ease;
+    margin-right: 8px;
   }
   
-  /* Search Bar */
+  .profile-icon:hover {
+    background-color: #f3f4f6;
+    transform: translateY(-1px);
+  }
+  
+  .profile-icon .icon {
+    font-size: 24px; /* Increased icon size */
+    color: #4b5563;
+  }
+  
+  .profile-image {
+    width: 40px; /* Increased size */
+    height: 40px; /* Increased size */
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Adjusted Search Bar */
   .search-bar {
     display: flex;
     align-items: center;
-    gap: 10px;
-    border: 1px solid #ccc; /* Only one border around the search bar */
-    border-radius: 20px;
-    padding: 5px 15px;
-    width: 65%; /* 65% width for the search bar */
-    background-color: #fff; /* Ensure background is white */
+    gap: 8px;
+    background-color: #e2e8f0; /* Darker background */
+    border: 2px solid transparent;
+    border-radius: 16px;
+    padding: 6px 16px; /* Slightly increased padding */
+    width: 30%;
+    max-width: 400px;
+    transition: all 0.3s ease;
+    height: 38px; /* Increased height */
+  }
+  
+  .search-bar:hover {
+    background-color: #cbd5e1; /* Darker hover state */
+  }
+  
+  .search-bar:focus-within {
+    background-color: #f1f5f9; /* Lighter when focused */
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
   }
   
   .search-bar input {
-    border: none; /* Remove input border */
-    outline: none; /* Remove focus outline */
-    padding: 5px;
-    font-size: 14px;
+    border: none;
+    outline: none;
+    padding: 4px;
+    font-size: 14px; /* Slightly larger font */
     width: 100%;
-    background-color: transparent; /* Make sure input background is transparent */
+    background-color: transparent;
+    color: #1f2937; /* Darker text color */
+  }
+  
+  .search-bar input::placeholder {
+    color: #64748b; /* Darker placeholder text */
+    font-weight: 500;
   }
   
   .search-icon {
-    font-size: 16px; /* Size of the search icon */
-    color: #007BFF; /* Blue color */
+    font-size: 14px;
+    color: #475569; /* Darker icon color */
+    transition: color 0.2s ease;
   }
   
-  /* Message Icon (Updated) */
+  .search-bar:focus-within .search-icon {
+    color: #2563eb;
+  }
+  
+  /* Message Icon with Blue Color */
   .message-icon {
-    font-size: 3vw; /* Same size ratio as profile icon (3% of the viewport width) */
-    color: #007BFF; /* Blue color */
-    padding: 0; /* Remove padding to make it fit tightly */
+    position: relative;
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-right: 4vw; /* Distance of 4% of the viewport width to the right edge of the page */
-    min-width: 40px; /* Ensures the icon has a minimum size */
-    min-height: 40px; /* Ensures the icon has a minimum size */
-    text-align: center;
-    background-color: transparent; /* Remove white background */
-    border-radius: 0; /* Remove circular background */
+    justify-content: center;
+    color: #2563eb; /* Changed to blue */
+    text-decoration: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    background-color: transparent;
+    margin-left: 8px;
   }
   
-  /* Message Badge (if any new messages) */
+  .message-icon:hover {
+    background-color: #eff6ff; /* Lighter blue background on hover */
+    color: #1d4ed8; /* Darker blue on hover */
+    transform: translateY(-1px);
+  }
+  
+  .message-icon .icon {
+    font-size: 24px;
+    transition: transform 0.2s ease;
+  }
+  
+  .message-icon:hover .icon {
+    transform: scale(1.1);
+  }
+  
   .message-badge {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: red;
+    top: 2px;
+    right: 2px;
+    background-color: #ef4444; /* Keeping red for notification */
     color: white;
-    font-size: 12px;
-    padding: 3px 6px;
-    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 12px;
+    min-width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: pulse 2s infinite;
   }
   
-  /* Remove double borders from search bar */
-  .search-bar {
-    border: 1px solid #ccc; /* Only one border around the search bar */
-    box-shadow: none; /* Remove any shadow that might create an extra border effect */
+  /* Adjust spacing in header */
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Increased gap between icons */
   }
   
-  /* Ensure body content doesn't overlap the fixed header */
-  body {
-    margin-top: 70px; /* Space for the fixed header */
-    overflow-y: auto; /* Allow vertical scrolling */
+  /* Content area */
+  .content {
+    margin-top: 75px; /* Adjusted for larger header */
+    padding: 20px;
+  }
+  
+  /* Animations */
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Adjusted responsive breakpoints */
+  @media (max-width: 768px) {
+    .header {
+      height: 60px;
+      padding: 10px 20px;
+    }
+    
+    .search-bar {
+      width: 35%;
+      max-width: 250px;
+      height: 36px;
+    }
+    
+    .content {
+      margin-top: 70px;
+    }
+    
+    .profile-icon,
+    .message-icon {
+      width: 44px; /* Slightly smaller on tablets */
+      height: 44px;
+    }
+    
+    .profile-image {
+      width: 36px;
+      height: 36px;
+    }
+    
+    .message-icon .icon,
+    .profile-icon .icon {
+      font-size: 22px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .header {
+      height: 55px;
+      padding: 8px 16px;
+    }
+    
+    .content {
+      margin-top: 65px;
+    }
+    
+    .profile-icon,
+    .message-icon {
+      width: 40px; /* Even smaller on mobile */
+      height: 40px;
+    }
+    
+    .profile-image {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .message-icon .icon,
+    .profile-icon .icon {
+      font-size: 20px;
+    }
+    
+    .message-badge {
+      font-size: 11px;
+      min-width: 18px;
+      height: 18px;
+      padding: 2px 6px;
+    }
+  }
+  
+  /* Custom Scrollbar */
+  .user-dashboard-page::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .user-dashboard-page::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .user-dashboard-page::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 3px;
   }
   
