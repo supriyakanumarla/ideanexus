@@ -109,16 +109,16 @@
     color: #2563eb;
   }
   
-  /* Message Icon with Blue Color */
+  /* Larger Message Icon */
   .message-icon {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #2563eb; /* Changed to blue */
+    color: #6b7280;
     text-decoration: none;
-    width: 48px;
-    height: 48px;
+    width: 48px; /* Increased size */
+    height: 48px; /* Increased size */
     border-radius: 50%;
     transition: all 0.2s ease;
     background-color: transparent;
@@ -126,13 +126,13 @@
   }
   
   .message-icon:hover {
-    background-color: #eff6ff; /* Lighter blue background on hover */
-    color: #1d4ed8; /* Darker blue on hover */
+    background-color: #f3f4f6;
+    color: #2563eb;
     transform: translateY(-1px);
   }
   
   .message-icon .icon {
-    font-size: 24px;
+    font-size: 24px; /* Increased icon size */
     transition: transform 0.2s ease;
   }
   
@@ -144,14 +144,14 @@
     position: absolute;
     top: 2px;
     right: 2px;
-    background-color: #ef4444; /* Keeping red for notification */
+    background-color: #ef4444;
     color: white;
-    font-size: 13px;
+    font-size: 13px; /* Slightly larger font */
     font-weight: 600;
     padding: 3px 8px;
     border-radius: 12px;
-    min-width: 22px;
-    height: 22px;
+    min-width: 22px; /* Larger badge */
+    height: 22px; /* Larger badge */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -266,5 +266,188 @@
   .user-dashboard-page::-webkit-scrollbar-thumb {
     background-color: #cbd5e1;
     border-radius: 3px;
+  }
+  
+  /* New Dashboard Content Styles */
+  .dashboard-content {
+    margin-top: 85px; /* Adjusted for header height */
+    padding: 24px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Quick Actions Section */
+  .quick-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  
+  .action-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    border-radius: 16px;
+    text-decoration: none;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 180px;
+  }
+  
+  .action-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    background: rgba(255, 255, 255, 0.1);
+    transition: opacity 0.3s ease;
+  }
+  
+  .action-card:hover::before {
+    opacity: 1;
+  }
+  
+  .action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+  
+  .create-project {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  }
+  
+  .browse-projects {
+    background: linear-gradient(135deg, #10b981, #059669);
+  }
+  
+  .find-collaborators {
+    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  }
+  
+  .action-icon {
+    font-size: 36px;
+    margin-bottom: 16px;
+    transition: transform 0.3s ease;
+  }
+  
+  .action-card:hover .action-icon {
+    transform: scale(1.1);
+  }
+  
+  .action-card span {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+  }
+  
+  /* Welcome Section */
+  .welcome-section {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+  }
+  
+  .welcome-section h2 {
+    font-size: 28px;
+    color: #1f2937;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  
+  .welcome-section p {
+    font-size: 16px;
+    color: #6b7280;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .quick-actions {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .dashboard-content {
+      padding: 20px;
+    }
+    
+    .quick-actions {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    
+    .action-card {
+      min-height: 160px;
+      padding: 24px 20px;
+    }
+    
+    .welcome-section {
+      padding: 24px;
+    }
+    
+    .welcome-section h2 {
+      font-size: 24px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .dashboard-content {
+      padding: 16px;
+    }
+    
+    .action-card {
+      min-height: 140px;
+    }
+    
+    .action-icon {
+      font-size: 32px;
+    }
+    
+    .action-card span {
+      font-size: 16px;
+    }
+    
+    .welcome-section {
+      padding: 20px;
+    }
+    
+    .welcome-section h2 {
+      font-size: 22px;
+    }
+    
+    .welcome-section p {
+      font-size: 14px;
+    }
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .dashboard-content {
+    animation: fadeIn 0.5s ease-out;
   }
   
