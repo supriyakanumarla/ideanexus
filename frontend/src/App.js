@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
 // Importing components
 import WelcomePage from '/home/rguktongole/Desktop/ideanexus/frontend/src/components/welcomepage.js';
@@ -12,17 +13,20 @@ import ForgotPassword from '/home/rguktongole/Desktop/ideanexus/frontend/src/com
 
 const App = () => {
   return (
-    <div className="app">
-      <Routes>
-        <Route path="/" element={<WelcomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/user-profile" element={<UserProfilePage />} />
-      </Routes>
-    </div>
+    <>
+      <Toaster position="top-right" />
+      <div className="app">
+        <Routes>
+          <Route path="/" element={<WelcomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/user-profile" element={<UserProfilePage />} />
+        </Routes>
+      </div>
+    </>
   );
 };
 

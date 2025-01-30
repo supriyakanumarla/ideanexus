@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const User = require('/home/rguktongole/Desktop/ideanexus/backend/models/user.js');
 
 const authenticateUser = async (req, res, next) => {
   try {
@@ -21,10 +22,20 @@ const authenticateUser = async (req, res, next) => {
       });
     }
 
+    // Verify and decode token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Add user from payload
-    req.user = decoded;
+    // Find user from database
+    const user = await User.findOne({ _id: decoded.userId });
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Add user to request object
+    req.user = user;
     next();
   } catch (error) {
     console.error('Auth middleware error:', error);

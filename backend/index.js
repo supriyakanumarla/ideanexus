@@ -5,6 +5,8 @@ require('dotenv').config();
 const path = require('path');
 const authRoutes = require('/home/rguktongole/Desktop/ideanexus/backend/routes/auth.js');
 const fs = require('fs');
+const messagesRouter = require('/home/rguktongole/Desktop/ideanexus/backend/routes/messages.js');
+const projectsRouter = require('/home/rguktongole/Desktop/ideanexus/backend/routes/profile.js');
 
 const app = express();
 
@@ -37,6 +39,8 @@ mongoose.connect('mongodb://localhost:27017/ideanexus', {
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use(messagesRouter);
+app.use(projectsRouter);
 
 // Create uploads directory if it doesn't exist
 const uploadsDir = path.join(__dirname, 'uploads');

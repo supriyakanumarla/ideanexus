@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 // Clear existing model
 if (mongoose.models.User) {
     delete mongoose.models.User;
-    delete mongoose.modelSchemas.User;
 }
 
 const userSchema = new mongoose.Schema({
@@ -14,12 +14,15 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        trim: true
     },
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        trim: true,
+        lowercase: true
     },
     password: {
         type: String,
@@ -39,13 +42,24 @@ const userSchema = new mongoose.Schema({
     lastPasswordReset: Date,
     bio: {
         type: String,
-        maxlength: 500,
         default: ''
     },
     profilePicture: {
         type: String,
         default: null
+    },
+    skills: [{
+        type: String,
+        trim: true
+    }]
+});
+
+// Add password hashing middleware
+userSchema.pre('save', async function(next) {
+    if (this.isModified('password')) {
+        this.password = await bcrypt.hash(this.password, 10);
     }
+    next();
 });
 
 module.exports = mongoose.model('User', userSchema);
